@@ -1,6 +1,6 @@
-# Turnstile - a non-return valve for data #
+# Turnstile - One Way Encryption #
 
-Turnstile uses public key encryption to allow data to be encrypted such that only a key, 
+Turnstile uses public key encryption to allow data to be encrypted in such a way that only a key, 
 not-present on the encrypting machine, can be used to decrypt it.
 
 
@@ -14,9 +14,9 @@ webserver, for example, is compromised.
 
 ### Encrypting Files ###
 
-If a friend of colleague gives you an ed25519 public key, you can encrypt data and put it in a
-public place, knowing that only they can decrypt it.  (You can't even decrypt it yourself, so you
-better keep the original, if you need it.) 
+If you are given you an ed25519 public key, you can encrypt data and put it in a public place,
+knowing that only they can decrypt it.  (You can't even decrypt it yourself, so you'd better keep
+the original, if you need it.) 
 
 
 ## Usage ##
@@ -68,7 +68,7 @@ Header:
 +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
 |            Initial IV             | Reserved  |
 +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
-
+```
 Blocks:
 ```
 +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
@@ -76,6 +76,6 @@ Blocks:
 +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
 |                                               |
 +                  Ciphertext                   +
-|                     ....                      |
-.                                               .
+|                                               |
+v                                               v
 ```
