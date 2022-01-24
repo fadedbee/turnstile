@@ -41,7 +41,7 @@ Decrypt a stream on the target machine:
 target:/some/dir $ cat filename.txt.t7e | turnstile decrypt
 hello world
 ```
-(`filename.txt.t7e` contains the public key.  Decription reads the associated secret key from `/home/fadedbee/.turnstile/i8q8p2L8gZpZsPD8NRcTiFfQHLfrhoq3IvsaEwWzPJH.secret`.)
+(`filename.txt.t7e` contains the target's public key.  Decryption reads the associated secret key from `/home/fadedbee/.turnstile/i8q8p2L8gZpZsPD8NRcTiFfQHLfrhoq3IvsaEwWzPJH.secret`.)
 
 
 ## Stream/File Format ##
