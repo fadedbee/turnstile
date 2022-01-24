@@ -1,5 +1,3 @@
-use std::io::{BufReader, BufRead, Write};
-
 use clap::{AppSettings, Parser, Subcommand};
 use anyhow;
 
@@ -9,6 +7,7 @@ mod base62;
 mod encrypt;
 mod decrypt;
 mod keygen;
+mod test;
 
 #[derive(Parser)]
 #[clap(author, version, about, long_about = None)]

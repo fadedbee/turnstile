@@ -1,8 +1,9 @@
-use std::{path::Path, fs};
+use std::fs;
 
 use sodiumoxide::crypto::box_;
 use anyhow::{self, Context};
-use crate::common::key_path;
+
+use crate::io::key_path;
 
 use super::base62;
 

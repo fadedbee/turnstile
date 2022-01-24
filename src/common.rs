@@ -1,9 +1,15 @@
-use sodiumoxide::crypto::box_::{Nonce, PublicKey, SecretKey};
+use sodiumoxide::crypto::box_::Nonce;
 
 pub const FADEDBEE: &[u8; 4] = &[0xFA, 0xDE, 0xDB, 0xEE];
 pub const TURNSTILE: &[u8; 9] = b"turnstile";
-pub const MAX_PLAINTEXT_CHUNK: usize = 10; // 1024*1024;
-pub const MAX_CIPHERTEXT_CHUNK: usize = 2*1024*1024;
+
+/// As we use a u16 for the ciphertext length, this limits the chunk size.
+pub const MAX_CIPHERTEXT_CHUNK: usize = u16::MAX as usize;
+/// "box" encrypted messages are 16 bytes longer than their plaintext.
+pub const BOX_OVERHEAD: usize = 16;
+/// The maximum amount of plaintext to read and encypt in one chunk.
+pub const MAX_PLAINTEXT_CHUNK: usize = MAX_CIPHERTEXT_CHUNK - BOX_OVERHEAD;
+
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 pub fn version_bytes() -> [u8; 3] {
@@ -26,10 +32,4 @@ pub fn calculate_chunk_nonce(initial_nonce: &Nonce, chunk_num: u64) -> Nonce {
         }
     }
     chunk_nonce
-}
-
-pub type PrivateKeyLookup = Box<dyn Fn(PublicKey) -> SecretKey>;
-
-pub fn key_path(keydir: &str, b62_pkey: &str) -> String {
-    format!("{keydir}/{b62_pkey}.secret") // FIXME: use a Path
 }
