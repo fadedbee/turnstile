@@ -12,15 +12,15 @@ Cryptographically, turnstile is just a wrapper around libsodium's `box`.
 
 ### Logging ###
 
-Piping log output through turnstile causes logs to only be readable after moving them off-box, to
-the location with the private key.  This means that logs are protected if a webserver, for example,
-is compromised.
+Piping log output through turnstile causes logs to be readable only after moving them off-box, to
+the computer with the private key.  This means that historical logs are protected if a webserver, 
+for example, is compromised.
 
 ### Encrypting Files ###
 
-If you are given a ed25519 public key, you can encrypt data and put it in a public place,
-knowing that only the secret key owner can decrypt it.  (You can't even decrypt it yourself, so 
-you'd better keep the original, if you need it.) 
+If you are given a recipient's public key, you can encrypt data and put it in a public place,
+knowing that only they can decrypt it.  (You can't even decrypt it yourself, so you'd better keep
+the original, if you need it.) 
 
 
 ## Usage ##
