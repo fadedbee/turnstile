@@ -1,5 +1,3 @@
-Under active development.  Do not use, yet.
-
 # Turnstile - One Way Encryption #
 
 Turnstile encrypts data so that it can only be decrypted on another computer (and can't be decrypted on the encrypting computer).
