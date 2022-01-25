@@ -41,7 +41,7 @@ Encrypt a file on the source machine:
 source:/other/dir $ turnstile -i filename.txt -o filename.txt.t7e encrypt i8q8p2L8gZpZsPD8NRcTiFfQHLfrhoq3IvsaEwWzPJH
 ```
 
-Decrypt a stream on the target machine:
+Decrypt a file on the target machine:
 ```
 target:/some/dir $ cat filename.txt.t7e | turnstile decrypt
 hello world
