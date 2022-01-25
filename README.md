@@ -2,25 +2,38 @@ Under active development.  Do not use, yet.
 
 # Turnstile - One Way Encryption #
 
-Turnstile uses public key encryption to allow data to be encrypted in such a way that only a key, 
-not-present on the encrypting machine, can be used to decrypt it.
+Turnstile encrypts data so that it can only be decrypted on another computer (and can't be decrypted on the encrypting computer).
 
-Cryptographically, turnstile is just a wrapper around libsodium's `box`.
+Cryptographically, Turnstile is just a wrapper around libsodium's `box`.  Similar functionality could be acheived with an ECIES variant.
+
+## Encrypting
+
+- The source computer makes an ephemeral keypair.
+- The source's private key is used with the target's public key to make the precomputed key.
+- The precomputed key is used to encrypt the message.
+- The source's public key is part of the encrypted message, but otherwise not kept.
+- The source's private key is discarded.
+
+## Decrypting
+
+- The target computer has a long-lived keypair.
+- The target's private key is used with the source's public key (contained in the encrypted message) to make the precomputed key.
+- The precomputed key is used to decrypt the message.
 
 
 ## Uses Cases ##
 
 ### Logging ###
 
-Piping log output through turnstile causes logs to be readable only after moving them off-box, to
-the computer with the private key.  This means that historical logs are protected if a webserver, 
-for example, is compromised.
+Piping logs through Turnstile causes logs to be readable only after moving them off-box, to
+the computer with the target private key.  This means that historical logs are protected if a
+webserver, for example, is compromised.
 
 ### Encrypting Files ###
 
 If you are given a recipient's public key, you can encrypt data and put it in a public place,
 knowing that only they can decrypt it.  (You can't even decrypt it yourself, so you'd better keep
-the original, if you need it.) 
+the original, if it's needed.) 
 
 
 ## Usage ##
@@ -56,7 +69,7 @@ hello world
 ```
 
 
-## Stream/File Format ##
+## Stream/File Format for Version 1.0.X.##
 
 Header:
 ```
@@ -76,6 +89,7 @@ Header:
 |                       |
 +--+--+--+--+--+--+--+--+
 ```
+
 Chunks:
 ```
 +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
@@ -86,6 +100,7 @@ Chunks:
 |                                               |
 v                                               v
 ```
+
 Final Chunk:
 ```
 +--+--+
@@ -99,10 +114,12 @@ Final Chunk:
 Documentation of trade-offs anmd compromises.
 
 
-## Requiring private keys to be in files (in ~/.turnstile) ##
+## Requiring private keys to be contained in files (in ~/.turnstile) ##
 
-It would have been possible to put target secret keys on the command line too, rather than
-using `~/.turnstile`.  This would be insecure for multi-user machines, as `ps` and `top` show the
+It would have been possible to specify target secret keys on the command line, rather than
+using `~/.turnstile`.
+
+This would be insecure for multi-user machines, as `ps` and `top` show the
 command line arguments of other users.
 
 
@@ -118,14 +135,14 @@ command line arguments of other users.
 There is no need for the target public key to exist in the encryption output.
 
 Pros:
-- Allows decryption to only try one secret key, rather than all it knows.
+- Allows decryption to only try one secret key, rather than all that it knows.
 - Users can inspect a .t7e file to find which public key they need to use to decrypt it.
 
 Cons:
-- Adds identifiable infomation to the encryption output.
+- Adds identifiable information to the encryption output.
 
 
-## Using ~/.turnstile rather than Ed25519 SSH keys in ~/.ssh ##
+## Using ~/.turnstile rather than Ed25519 SSH keys from ~/.ssh ##
 
 The encryption used by turnstile is compatible with SSH's .ssh/id_ed25519.pub files.
 
@@ -143,15 +160,15 @@ Smaller chunks have more overhead. but allowing larger chunks means more length 
 small chunk. 
 
 We could have used a variably-sized integer for the length, which would have saved some space, at
-the expense of some CPU cycles.
+the expense of some CPU cycles and complexity.
 
 For the time-being, we've settled on a maximum chunk size of 65,535 bytes.
 
 For large files, every 65,519 bytes of plaintext results in a chunk containing 2 bytes of length and
 65,535 bytes of cipher text.
 
-This is less than a 0.03% overhead.  This is acceptable, given the simplicity of using a u16 for the
-chunk length.
+This is less than a 0.03% overhead.  This is acceptable, for v1.0.0, given the simplicity of using a
+u16 for the chunk length.
 
 
 ## Nonce generation ##

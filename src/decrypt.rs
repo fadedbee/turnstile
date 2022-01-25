@@ -22,13 +22,11 @@ pub fn _decrypt(keydir: &str, input: &mut dyn Read,
 
     let mut len_buf = [0u8; size_of::<u16>()];
     for chunk_num in 0u64.. {
-        eprintln!("chunk_num {chunk_num}");
         let chunk_nonce = calculate_chunk_nonce(&initial_nonce, chunk_num);
 
         // read length of chunk
         input.read_exact(&mut len_buf)?;
         let len = u16::from_be_bytes(len_buf);
-        eprintln!("len {len}");
         if len == 0u16 {
             return Ok(());
         }
@@ -62,7 +60,7 @@ fn read_header(input: &mut dyn Read) -> anyhow::Result<(PublicKey, PublicKey, No
         return Err(anyhow::anyhow!("invalid protocol"));
     }
     // FIXME: change this for a more sophisticated check, after the first version is released
-    if buf[13..16] != version_bytes() {
+    if buf[13..15] != version_bytes()[0..2] { // check first two bytes haven't changed
         return Err(anyhow::anyhow!("invalid version"));
     }
 

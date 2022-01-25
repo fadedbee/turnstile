@@ -14,6 +14,5 @@ pub fn keygen(keydir: &str) -> anyhow::Result<()> {
     let path = key_path(keydir, &b62_pkey);
 
     fs::write(&path, b62_skey).context(format!("unable to open '{path}' for writing a key"))?;
-    eprintln!("new secret key written into {path}");
     Ok(())
 }
