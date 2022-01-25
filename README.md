@@ -1,5 +1,3 @@
-Under active development.  Do not use, yet.
-
 # Turnstile - One Way Encryption #
 
 Turnstile uses public key encryption to allow data to be encrypted in such a way that only a key, 
