@@ -36,12 +36,24 @@ Encrypt a stream on the source machine:
 source:/other/dir $ echo "hello world" | turnstile encrypt i8q8p2L8gZpZsPD8NRcTiFfQHLfrhoq3IvsaEwWzPJH > filename.txt.t7e
 ```
 
+Encrypt a file on the source machine:
+```
+source:/other/dir $ turnstile -i filename.txt -o filename.txt.t7e encrypt i8q8p2L8gZpZsPD8NRcTiFfQHLfrhoq3IvsaEwWzPJH
+```
+
 Decrypt a stream on the target machine:
 ```
 target:/some/dir $ cat filename.txt.t7e | turnstile decrypt
 hello world
 ```
 (`filename.txt.t7e` contains the target's public key.  Decryption reads the associated secret key from `/home/fadedbee/.turnstile/i8q8p2L8gZpZsPD8NRcTiFfQHLfrhoq3IvsaEwWzPJH.secret`.)
+
+Decrypt a stream on the target machine:
+```
+target:/some/dir $ turnstile -i filename.txt -o filename.txt.t7e -o decrypted.txt decrypt
+target:/some/dir $ cat decrypted.txt
+hello world
+```
 
 
 ## Stream/File Format ##
@@ -98,6 +110,7 @@ command line arguments of other users.
 
 - Base64 is more common, but needs to be quoted in shell commands and does not cut and paste easily.
 - Base58 has guards which might be useful for hand-typing keys, but is longer and variably sized.
+- In a nice coincidence, 43 base 62 digits provide 256.03 bits.  log2(62)*43 == 256.03
 
 
 ## Including the Target Public Key in the Encryption Output ##
