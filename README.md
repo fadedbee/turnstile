@@ -41,14 +41,14 @@ Encrypt a file on the source machine:
 source:/other/dir $ turnstile -i filename.txt -o filename.txt.t7e encrypt i8q8p2L8gZpZsPD8NRcTiFfQHLfrhoq3IvsaEwWzPJH
 ```
 
-Decrypt a file on the target machine:
+Decrypt a stream on the target machine:
 ```
 target:/some/dir $ cat filename.txt.t7e | turnstile decrypt
 hello world
 ```
 (`filename.txt.t7e` contains the target's public key.  Decryption reads the associated secret key from `/home/fadedbee/.turnstile/i8q8p2L8gZpZsPD8NRcTiFfQHLfrhoq3IvsaEwWzPJH.secret`.)
 
-Decrypt a stream on the target machine:
+Decrypt a file on the target machine:
 ```
 target:/some/dir $ turnstile -i filename.txt -o filename.txt.t7e -o decrypted.txt decrypt
 target:/some/dir $ cat decrypted.txt
