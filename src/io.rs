@@ -1,4 +1,4 @@
-use std::{io::{stdin, stdout, Read, Write}, fs::{File, create_dir_all, self}};
+use std::{io::{stdin, stdout, Read, Write}, fs::{File, create_dir_all, self, OpenOptions}};
 use anyhow::Context;
 use sodiumoxide::crypto::box_::{PublicKey, SecretKey};
 
@@ -19,8 +19,13 @@ pub fn open_input(input: Option<String>) -> anyhow::Result<Box<dyn Read>> {
 /// Note: stdout on Windows only accepts utf8.
 pub fn open_output(output: Option<String>) -> anyhow::Result<Box<dyn Write>> {
     if let Some(filename) = output {
-        Ok(Box::new(File::open(&filename)
-            .context(format!("unable to open '{filename}' for output"))?))
+        Ok(Box::new(
+            OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&filename)
+            .context(format!("unable to open '{filename}' for output"))?
+        ))
     } else {
         Ok(Box::new(stdout()))
     }
