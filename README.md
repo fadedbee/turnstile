@@ -67,7 +67,7 @@ hello world
 ```
 
 
-## Stream/File Format for Version 1.0.X.##
+## Stream/File Format for Version 1.0.X. ##
 
 Header:
 ```
