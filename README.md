@@ -109,7 +109,7 @@ Final Chunk:
 
 # Design Choices #
 
-Documentation of trade-offs anmd compromises.
+Documentation of trade-offs and compromises.
 
 
 ## Requiring private keys to be contained in files (in ~/.turnstile) ##
