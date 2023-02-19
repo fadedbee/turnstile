@@ -9,8 +9,8 @@ Cryptographically, Turnstile is just a wrapper around libsodium's `box`.  Simila
 - The source computer makes an ephemeral keypair.
 - The source's private key is used with the target's public key to make the precomputed key.
 - The precomputed key is used to encrypt the message.
-- The source's public key is part of the encrypted message, but otherwise not kept.
-- The source's private key is discarded.
+- The source's ephemeral public key is part of the encrypted message, but otherwise not kept.
+- The source's ephemeral private key is discarded.
 
 ## Decrypting
 
@@ -69,7 +69,7 @@ hello world
 ```
 
 
-## Stream/File Format for Version 1.0.X.##
+## Stream/File Format for Version 1.0.X. ##
 
 Header:
 ```
@@ -111,7 +111,7 @@ Final Chunk:
 
 # Design Choices #
 
-Documentation of trade-offs anmd compromises.
+Documentation of trade-offs and compromises.
 
 
 ## Requiring private keys to be contained in files (in ~/.turnstile) ##
@@ -132,7 +132,7 @@ command line arguments of other users.
 
 ## Including the Target Public Key in the Encryption Output ##
 
-There is no need for the target public key to exist in the encryption output.
+There is no cryptographic need for the target public key to exist in the encryption output, but we do include it.
 
 Pros:
 - Allows decryption to only try one secret key, rather than all that it knows.
