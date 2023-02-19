@@ -1,12 +1,30 @@
 [package]
 name = "turnstile"
-version = "1.0.0"
+version = "1.0.2"
 edition = "2021"
+authors = ["fadedbee <crates@fadedbee.com>"]
+license = "MIT OR Apache-2.0"
+description = "One-way encryption."
+readme = "README.md"
+homepage = "https://github.com/fadedbee/turnstile"
+repository = "https://github.com/fadedbee/turnstile/"
+publish = true
+categories = ["encryption"]
+keywords = ["encryption"]
+documentation = "https://docs.rs/turnstile"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[lib]
+name = "turnstile"
+path = "src/lib.rs"
+
+[[bin]]
+name = "turnstile"
+path = "src/main.rs"
+
 [dependencies]
-clap = { version = "*", features = ["derive"] }
-anyhow = "*"
+anyhow = "1.0.69"
+clap = { version = "3", features = ["derive"] } # Verson 4 is available but causes an compilation error.
+shellexpand = "3.0.0"
 sodiumoxide = "0.2.7"
-shellexpand = "*"

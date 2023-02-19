@@ -3,7 +3,6 @@ use sodiumoxide::crypto::box_::{self, PublicKey, Nonce, SecretKey};
 
 use super::{base62, common::*};
 
-
 pub fn encrypt(target_public_key: &str, input: &mut dyn Read,
                                                     output: &mut dyn Write) -> anyhow::Result<()> {
     let target_pkey = PublicKey(base62::decode(target_public_key)?);

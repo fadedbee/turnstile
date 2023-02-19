@@ -1,13 +1,6 @@
 use clap::{AppSettings, Parser, Subcommand};
 use anyhow;
-
-mod common;
-mod io;
-mod base62;
-mod encrypt;
-mod decrypt;
-mod keygen;
-mod test;
+use turnstile::{encrypt, decrypt, io, keygen};
 
 #[derive(Parser)]
 #[clap(author, version, about, long_about = None)]

@@ -33,6 +33,8 @@ If you are given a recipient's public key, you can encrypt data and put it in a 
 knowing that only they can decrypt it.  (You can't even decrypt it yourself, so you'd better keep
 the original, if it's needed.) 
 
+You can already do similar things with openssl or PGP, so this isn't very exciting.
+
 
 ## Usage ##
 
