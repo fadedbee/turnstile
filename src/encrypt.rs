@@ -50,7 +50,33 @@ pub fn write_header(source_pkey: &PublicKey, target_pkey: &PublicKey, initial_no
     Ok(())
 }
 
+pub fn encrypt_without_end(target_pkey: &PublicKey, source_pkey: &PublicKey, source_skey: &SecretKey, 
+    mut chunk_num: u64, initial_nonce: Nonce, input: &mut dyn Read, output: &mut dyn Write) -> anyhow::Result<u64> {
 
+    let symkey = box_::precompute(&target_pkey, &source_skey);
+
+    write_header(source_pkey, target_pkey, &initial_nonce, output)?;
+
+    assert!(MAX_CIPHERTEXT_CHUNK <= u16::MAX as usize); 
+
+    let mut buf = [0; MAX_PLAINTEXT_CHUNK];
+    loop {
+        match input.read(&mut buf)? {
+            0 => break,
+            n => {
+                let chunk_nonce = calculate_chunk_nonce(&initial_nonce, chunk_num);
+                let ciphertext = box_::seal_precomputed(&buf[..n], &chunk_nonce, &symkey);
+                assert!(ciphertext.len() <= MAX_CIPHERTEXT_CHUNK); 
+                output.write_all(&(ciphertext.len() as u16).to_be_bytes())?;
+                output.write_all(&ciphertext)?;
+                chunk_num += 1;
+            }
+            // TODO: should we trap "if e.kind() == ErrorKind::Interrupted" and continue?
+        }
+    }
+
+    Ok(chunk_num)
+}
 
 #[cfg(test)]
 mod tests {

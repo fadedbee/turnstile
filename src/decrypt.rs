@@ -1,4 +1,4 @@
-use std::{io::{Read, Write}, mem::size_of};
+use std::{io::{Read, Write}, mem::size_of, num};
 use sodiumoxide::crypto::box_::{self, PublicKey, Nonce, SecretKey};
 
 use crate::io::{disk_lookup};
@@ -25,7 +25,11 @@ pub fn _decrypt(keydir: &str, input: &mut dyn Read,
         let chunk_nonce = calculate_chunk_nonce(&initial_nonce, chunk_num);
 
         // read length of chunk
-        input.read_exact(&mut len_buf)?;
+        let num_read = input.read(&mut len_buf)?;
+        if num_read < size_of::<u16>() {
+            return Ok(()); // stream has ended
+        }
+
         let len = u16::from_be_bytes(len_buf);
         if len == 0u16 {
             return Ok(());
