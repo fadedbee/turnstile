@@ -52,6 +52,10 @@ pub fn decode(base62: &str) -> anyhow::Result<[u8; 32]> {
             return Err(anyhow::anyhow!("non-ascii character, index: {i}"));
         }
 
+        if i == 43 {
+            break // Ignore any characters after the first 43.
+        }
+
         let mut val = match ALPHABET.iter().position(|&x| x == *c) { // FIXME: too slow
             Some(val) => val,
             None => {

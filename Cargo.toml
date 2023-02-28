@@ -1,6 +1,6 @@
 [package]
 name = "turnstile"
-version = "1.0.8"
+version = "1.0.10"
 edition = "2021"
 authors = ["fadedbee <crates@fadedbee.com>"]
 license = "MIT OR Apache-2.0"

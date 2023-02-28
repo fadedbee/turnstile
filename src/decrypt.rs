@@ -1,4 +1,4 @@
-use std::{io::{Read, Write}, mem::size_of, num};
+use std::{io::{Read, Write}, mem::size_of};
 use sodiumoxide::crypto::box_::{self, PublicKey, Nonce, SecretKey};
 
 use crate::io::{disk_lookup};
