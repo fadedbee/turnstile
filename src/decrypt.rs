@@ -49,7 +49,7 @@ pub fn _decrypt(keydir: &str, input: &mut dyn Read,
     unreachable!("loop never exits");
 }
 
-fn read_header(input: &mut dyn Read) -> anyhow::Result<(PublicKey, PublicKey, Nonce)> {
+pub fn read_header(input: &mut dyn Read) -> anyhow::Result<(PublicKey, PublicKey, Nonce)> {
     // read and check magic and version
     let mut buf = [0u8; 16];
     input.read_exact(&mut buf)?;

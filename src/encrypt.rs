@@ -39,7 +39,7 @@ pub fn _encrypt(target_pkey: &PublicKey, source_pkey: &PublicKey, source_skey: &
 }
 
 
-fn write_header(source_pkey: &PublicKey, target_pkey: &PublicKey, initial_nonce: &Nonce,
+pub fn write_header(source_pkey: &PublicKey, target_pkey: &PublicKey, initial_nonce: &Nonce,
     output: &mut dyn Write) -> anyhow::Result<()> {
     output.write_all(FADEDBEE)?;
     output.write_all(TURNSTILE)?;
