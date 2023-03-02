@@ -50,12 +50,10 @@ pub fn write_header(source_pkey: &PublicKey, target_pkey: &PublicKey, initial_no
     Ok(())
 }
 
-pub fn encrypt_without_end(target_pkey: &PublicKey, source_pkey: &PublicKey, source_skey: &SecretKey, 
+pub fn encrypt_without_end(target_pkey: &PublicKey, _source_pkey: &PublicKey, source_skey: &SecretKey, 
     mut chunk_num: u64, initial_nonce: Nonce, input: &mut dyn Read, output: &mut dyn Write) -> anyhow::Result<u64> {
 
     let symkey = box_::precompute(&target_pkey, &source_skey);
-
-    write_header(source_pkey, target_pkey, &initial_nonce, output)?;
 
     assert!(MAX_CIPHERTEXT_CHUNK <= u16::MAX as usize); 
 
